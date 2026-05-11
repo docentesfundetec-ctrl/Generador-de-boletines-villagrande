@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Boletines Educamos</title>
+    <meta name="theme-color" content="#4f46e5">
+    <link id="manifest-link" rel="manifest" href="">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- jsPDF & jsPDF-AutoTable -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; -webkit-tap-highlight-color: transparent; }
+        select { appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e"); background-repeat: no-repeat; background-position: right 0.5rem center; background-size: 1em; }
+        .btn-rand { transition: all 0.2s; }
+        .btn-rand:active { transform: scale(0.95); }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        
+        /* Switch Toggle CSS */
+        .toggle-checkbox:checked { right: 0; border-color: #4f46e5; }
+        .toggle-checkbox:checked + .toggle-label { background-color: #4f46e5; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="flex h-screen overflow-hidden flex-col md:flex-row">
+        <!-- Sidebar / Menú Inferior (En móviles) -->
+        <aside class="w-full md:w-72 bg-slate-900 text-white flex flex-col shadow-xl z-20 md:relative absolute bottom-0 md:h-full">
+            <div class="p-6 border-b border-slate-700 hidden md:block">
+                <h1 class="text-xl font-bold tracking-tight text-indigo-400">EDUCAMOS</h1>
+                <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1 font-semibold">Institución Educativa</p>
+            </div>
+            
+            <nav class="flex-1 p-2 md:p-4 flex md:flex-col overflow-y-auto justify-around md:justify-start gap-2">
+                <button onclick="switchTab('alumnos')" class="flex-1 md:flex-none text-left p-3 rounded-xl hover:bg-slate-800 transition flex flex-col md:flex-row items-center gap-1 md:gap-3 justify-center md:justify-start" id="btn-alumnos">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                    <span class="text-[10px] md:text-sm text-center md:text-left">Alumnos</span>
+                </button>
+                <button onclick="switchTab('logos')" class="flex-1 md:flex-none text-left p-3 rounded-xl hover:bg-slate-800 transition flex flex-col md:flex-row items-center gap-1 md:gap-3 justify-center md:justify-start" id="btn-logos">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                    <span class="text-[10px] md:text-sm text-center md:text-left">Logos</span>
+                </button>
+                <button onclick="switchTab('notas')" class="flex-1 md:flex-none text-left p-3 rounded-xl hover:bg-slate-800 transition flex flex-col md:flex-row items-center gap-1 md:gap-3 justify-center md:justify-start" id="btn-notas">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    <span class="text-[10px] md:text-sm text-center md:text-left">Calificar</span>
+                </button>
+            </nav>
+
+            <div class="p-4 border-t border-slate-700 bg-slate-950 flex flex-col gap-3 hidden md:flex" id="desktop-actions">
+                <button onclick="installPWA()" id="btn-install" class="hidden w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 rounded-xl transition shadow-lg flex items-center justify-center gap-2 text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
+                    Instalar App
+                </button>
+                <button onclick="generatePDF()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl transition shadow-lg flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                    Exportar PDF
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto p-4 md:p-8 pb-24 md:pb-8">
+            <header class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 id="view-title" class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">Carga de Datos</h2>
+                    <p class="text-slate-500 text-xs md:text-sm">EDUCAMOS CON VALORES</p>
+                </div>
+                <div id="student-selected-badge" class="hidden bg-indigo-50 text-indigo-700 px-4 py-2 rounded-2xl text-xs md:text-sm font-bold border border-indigo-100 shadow-sm self-start md:self-auto">
+                    Editando: <span id="current-student-name" class="text-slate-900 ml-1">---</span>
+                </div>
+            </header>
+
+            <!-- View: Alumnos -->
+            <section id="view-alumnos" class="view-panel space-y-6">
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-5 md:p-8">
+                    <label class="block text-xs font-bold text-slate-400 mb-3 uppercase tracking-widest">Base de Estudiantes</label>
+                    <textarea id="raw-students" rows="12" class="w-full border-slate-200 rounded-2xl p-4 font-mono text-[10px] md:text-xs bg-slate-50 mb-4 focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="Nombre | Grado">ADHARA SOPHIA PALLARES FELIZOLA | PRE JARDIN
+Adrian Carrascal España | CLEI V
+Adrian Jesus Carrascal España | CLEI V
+Adrian Joel Mejia Romero | CLEI V
+Adriana Maria Hernandez Polo | CLEI III
+Alana Julio Batista | SEPTIMO
+Alejandro Guzman | CLEI IV
+Alejandro Guzman Julio | CLEI IV
+Alvarez Gomez Andrea Andrea Paola | CLEI V
+Alvis Arias Santiago | CLEI V
+Ana Sofia Martinez Montiel | CLEI V
+Ananda LUCIA Arriola Santoya | SEXTO
+Ananda Lucia Urriola Santoya | SEXTO
+Andres Felipe Balseiro Buelvas | CLEI V
+Andres Manuel Arroyo Hll. | CLEI IV
+Andres Meza | CLEI V
+Angel Luis Hernandez Mercado | CLEI IV
+AngelIs Paola Mercado Morales | CLEI V
+Angie Lucía Jaramillo Paternina | CLEI V
+Angie Paola Cardona Peña | CLEI V
+Arnedo Vergara Sherlyn Alejandra | CLEI IV
+Benedetti Gomez Esteban David | CLEI V
+Brency Maria Anayas Hernandez | CLEI V
+Brian Eduardo Bonilla Zabaleta | CLEI V
+Britany Saray Gray Colina | NOVENO
+Camilo Andres Vieco Serrano | CLEI IV
+Dana Macea Ibañez | CLEI V
+Daniela Patricia Navas Barreto | CLEI V
+Daylis Valeria Tapias Carrillo | CLEI V
+DE AVILA MARRUGO THALIANA MARCELA | CLEI III
+Deilis Andrea Barragan Ordoñez | CLEI V
+Diana Maria | CLEI IV
+Diego Alejandro Yañez levete | CLEI V
+Dilan Enrique Florian Miranda | Sin Grado
+Dilan Jimenez Escorcia | NOVENO
+Dilan Jesus Romero Agudelo. | SEPTIMO
+Dilan Romero. | SEPTIMO
+Dylan gonzalez cuentas | CLEI V
+Edgar Caicedo Rangel. | CLEI III
+Edgar Rangel Edgardo Junior | CLEI III
+EIleen Garces Angarita 6° | SEXTO
+Elianis Rodriguez | CLEI V
+Elianny Carolina Diaz Villalba | CLEI V
+Emanuel Jose Blanco Dovales | CLEI V
+Emily Sofia Montes Beltran | CLEI IV
+Emmanuel jose puerta Pérez | CLEI V
+Eva Sandrit Ruiz Zuñiga | Clei V
+Fabio Alejandro Viamontes Bermudez | CLEI V
+Gabriela Julio Piedrahita | CLEI IV
+García Paez Hanna Maria | CLEI IV
+Genesis ortiz Angulo | SEPTIMO
+Harlil Daniel Guerrero Rueda | CLEI V
+Hermman Wadit Vivanco de Avila | 10
+Hernandez Bello Kevin de Jesus | CLEI V
+Heydi Jhoana Altamiranda Herrera | CLEI V
+Hincapie Cervante Luis Fabian | CLEI IV
+Isaac Andres Marmolejo Barraza | CLEI V
+isabella Franco Medina | 9-10
+Isabela Andrea Nunez | CLEI IV
+Jairo Jose Rua Ramirez | SEPTIMO
+Jean Frank Villa VAsquez | CLEI V
+Jeinner David Garcia Guarnizo | CLEI IV
+Jeison Andres Cabarcas Navas | CLEI V
+Jesus Manuel Montiel Simanca | CLEI V
+Jesus Said Suarez Castro | CLEI IV
+Jhan David Danguy | CLEI IV
+Jhean David Banquez Muñoz | CLEI IV
+Jhoan Alexander Ramos Leal | CLEI IV
+Jhon Alexander Ramos | CLEI IV
+Jhon Alexander Ramos Leal | CLEI V
+Jhon Andris Bustamante Marin | CLEI V
+jhon javier alvis castellano | CLEI III
+Jhon Rivaldo Meza Arnedo | CLEI V
+Jhonathan de Jesús gil vaequez | SEPTIMO
+Jhonathan Gil. | SEPTIMO
+Jonathan Rosestand Benitez | Sin Grado
+Jose Miguel Martinez Carrillo | CLEI V
+Josuar Yesid Hernandez Martinez | CLEI V
+Juan Camilo Melendez Ramos | CLEI IV
+Juan Jose Burgos Palomino 8° 9 | CLEI IV
+Juan Manuel Buelvas | CLEI V
+Juan Pablo Pearson Agamez | Sin Grado
+Juan Sebastian Yañez Alonso | CLEI V
+Kaily Ariannis bello | PRE JARDIN
+Keny David Solano Morales | CLEI IV
+Keren Daniela Orozco Paniza | CLEI IV
+Keren Daniela Orozco palizzo | CLEI IV
+Keyder Miguel HernandeZ Bello | SEXTO
+Keysi Dariana Torres Arrieta. | PRIMERO
+Laura Valentina Martinez Altamar | CLEI V
+Laury Vanesa Bolivar Montes | CLEI V
+Leonardo Marquez | CLEI IV
+Leyner Javier Leon Gonzalez | OCTAVO
+Leyner Leon 8° | OCTAVO
+Loreanys Maria Julio Franco | SEXTO
+Lorey Martinez Romero | CLEI V
+Luis Fernando Estremos Barrios | CLEI V
+Luis Jose Vasquez Salgado | QUINTO
+Luis Santiago Polo Galvis | CLEI V
+Luna Isabel Sanches perea | CLEI V
+Maria angel oviedo | CLEI IV
+Maria Camila Chico Robles | CLEI IV
+Maria Clara Jimenez Batista. | SEPTIMO
+Maria de Jesus Aponte Thorre | CLEI IV
+Maria Isabel del Rio pajaro | SEXTO
+Maria Jose Arango Montenegro | CLEI V
+Maria Jose Yañez levete | CLEI IV
+Maria Jose Yañez levette | CLEI IV
+Mariana Paola Gonzalez Baldovino | preescolar
+Marieth Peña Jimenez | NOVENO
+Mariluz Atencio Torres | CLEI IV
+Marquez Ruiz Luis Fernando | CLEI III
+Martinez Garcia Andres Felipe | 7.8
+Mateo Jose Meza Ramos | 11-2
+Mateo Jose De La Rosa Martinez | 10-2
+Matias Castellanos Roman | 11
+Mauricio Jimenez Salgado | CLEI III
+Melanis Yulepsi Ospino Castro | Sin Grado
+Melany Sofia Marrugo ahumada | OCTAVO
+Milagro Logreira 8° | OCTAVO
+Milagro Logreira de leon | OCTAVO
+Miller Andres Pailares | CLEI IV
+Miranda Iriarte Juan David | CLEI V
+Natalia logreira de león | SEXTO
+Nataly Jaramillo Paternina | OCTAVO
+Nathalia Logreira | SEXTO
+Neffer Dayanan THeran শারীরিক Martinez | CLEI IV
+Neffer Dayanna Theran Martinez | CLEI IV
+Nelson Enrique Buelvas Lopez | CLEI V
+Nestor Brayann Cabarcas Rodriguez | CLEI III
+Nixon de jesus Arrieta Fuentes | NOVENO
+Oscar Stiven Oviedo Mena | CLEI IV
+Ramiro Jose Ruiz Diaz | CLEI IV
+Reachel Alexandra peña loza hernandez | CLEI V
+Reachell Alexandra peña loza hernandez | CLEI V
+Ricardo Jose Morales Contreras | 10-11
+Roman De Avila Sharick Valentina | SEPTIMO
+Rosmary Carolina | CLEI IV
+Roxana Isabel Lopez Banquez | CLEI V
+Roxana Isabel Lopez Danguez | CLEI V
+Samuel david Torres suarez | QUINTO
+Samuel David Meza Leiva | CLEI V
+Samuel nísperuza luna | CLEI V
+Samuel Ortiz Angulo. | QUINTO
+Santiago Jose Blanquicett | 10-11
+SAntiago Martinez Osorio | CLEI IV
+Sebastian Andres Berrio Acosta | CLEI IV
+Sebastian David de la Cruz Pacheco | CLEI III
+Sebastian Romero | CLEI V
+Shaolin Andres Ortiz Llanos | 10-11
+Sharol Juliana Macea Ibañez | CLEI IV
+Sharoll Dahiana Torres Hernandez | CUARTO
+Sharon MIchell Romero Vargas | CLEI V
+Simancas Malo Diego Alejandro | 11
+Simon Rodriguez Florez | CLEI V
+Tatiana paola Salcedo Barrio | CLEI III
+Thiago Andres Pallares Marquez | SEGUNDO
+Valeria Montes predrahita. | SEPTIMO
+Valery Alexandra Arango Heredia | CLEI IV
+Veronica Isabel Lopez Ortega. | PRIMERO
+Victor Samuel Zuluaga Morelo. | SEPTIMO
+Victoria Torres Aviles | CLEI IV
+Violeta Sofia Martinez puerta | PRIMERO
+Whesllyn Espinosa Rodriguez | CLEI IV
+Wilfredo Yesid Baena Suarez | CLEI V
+William Erick Gomez HundelHausen | CLEI IV
+Yarkary Adriani Fernandez Rodriguez | CLEI V
+Yendry Alexander Mora Diaz | CLEI IV
+Yerimar Romero Lambis | CLEI IV
+Yessy Na. Giraldo Ramos | CLEI IV
+Yoelis medina Alcazar | SEXTO
+Yoneiber ezequiel quijada perez | CLEI V
+Yorbelys Rishel Ramirez Quijada | CLEI IV
+Zuñiga Rincon Camilo Andres | CLEI V</textarea>
+                    <button onclick="processStudents()" class="w-full md:w-auto bg-indigo-600 text-white px-10 py-3.5 rounded-2xl hover:bg-indigo-700 transition font-bold shadow-md">Procesar y Guardar Lista</button>
+                </div>
+            </section>
+
+            <!-- View: Logos -->
+            <section id="view-logos" class="view-panel hidden space-y-6">
+                
+                <div class="bg-indigo-50 border border-indigo-200 text-indigo-800 rounded-2xl p-4 text-sm flex items-start gap-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <p>Sube tus logos aquí <strong>una sola vez</strong>. La aplicación los guardará automáticamente en tu dispositivo para que no tengas que volver a subirlos cada vez que entres.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 md:p-8">
+                        <label class="block text-xs font-bold text-slate-400 mb-5 uppercase tracking-widest">Logo Principal (Izquierda)</label>
+                        <input type="file" id="logo-left" accept="image/*" class="w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-6 file:rounded-full file:border-0 file:bg-indigo-50 file:text-indigo-700 font-bold cursor-pointer outline-none"/>
+                        <p class="text-[10px] text-slate-400 mt-2 ml-1">Sube el logo circular (Fundación Dunamis).</p>
+                        <div id="preview-left" class="mt-6 h-32 w-32 border border-slate-100 rounded-full flex items-center justify-center overflow-hidden mx-auto bg-slate-50 shadow-inner">
+                            <span class="text-[10px] text-slate-300 font-bold">VACÍO</span>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 md:p-8">
+                        <label class="block text-xs font-bold text-slate-400 mb-5 uppercase tracking-widest">Banner Encabezado (Derecha)</label>
+                        <input type="file" id="logo-right" accept="image/*" class="w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-6 file:rounded-full file:border-0 file:bg-indigo-50 file:text-indigo-700 font-bold cursor-pointer outline-none"/>
+                        <p class="text-[10px] text-slate-400 mt-2 ml-1">Sube el banner con el mapa de Colombia.</p>
+                        <div id="preview-right" class="mt-6 h-32 w-full border border-slate-100 rounded-2xl flex items-center justify-center overflow-hidden bg-slate-50 shadow-inner">
+                            <span class="text-[10px] text-slate-300 font-bold">VACÍO</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 flex items-center justify-between">
+                    <div>
+                        <h4 class="font-bold text-slate-700">Ocultar texto del encabezado en PDF</h4>
+                        <p class="text-xs text-slate-500 mt-1">Activa esta opción porque tu banner subido ya trae los textos dibujados.</p>
+                    </div>
+                    <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                        <input type="checkbox" id="hide-header-text" onchange="saveTogglePreference()" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-slate-300"/>
+                        <label for="hide-header-text" class="toggle-label block overflow-hidden h-6 rounded-full bg-slate-300 cursor-pointer"></label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: Notas -->
+            <section id="view-notas" class="view-panel hidden space-y-6">
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-4 md:p-8">
+                    
+                    <!-- Top Controls -->
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 mb-6 border-b border-slate-100 pb-6">
+                        <div class="lg:col-span-4">
+                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Estudiante</label>
+                            <select id="select-student" onchange="updateStudentInfo()" class="w-full border border-slate-200 rounded-xl py-3 px-4 font-semibold text-slate-700 focus:ring-2 focus:ring-indigo-500 outline-none"></select>
+                        </div>
+                        <div class="lg:col-span-3">
+                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Grado Actual</label>
+                            <input type="text" id="student-cycle" class="w-full border border-slate-200 rounded-xl py-3 px-4 font-semibold text-slate-700" placeholder="Ej: CLEI V">
+                        </div>
+                        <div class="lg:col-span-5 flex flex-col justify-end">
+                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Llenado Rápido Total</label>
+                            <div class="flex gap-2">
+                                <button onclick="randomizeAll('alto')" class="flex-1 bg-emerald-500 text-white text-[10px] font-bold py-3 rounded-xl hover:bg-emerald-600 transition shadow-sm uppercase">Superior</button>
+                                <button onclick="randomizeAll('medio-alto')" class="flex-1 bg-sky-500 text-white text-[10px] font-bold py-3 rounded-xl hover:bg-sky-600 transition shadow-sm uppercase">Alto</button>
+                                <button onclick="randomizeAll('medio-bajo')" class="flex-1 bg-amber-500 text-white text-[10px] font-bold py-3 rounded-xl hover:bg-amber-600 transition shadow-sm uppercase">Básico</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Area Randomizers -->
+                    <div class="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <h4 class="text-[10px] font-bold text-slate-400 uppercase mb-3 tracking-wider text-center md:text-left">Matemáticas y Ciencias</h4>
+                            <div class="grid grid-cols-4 md:grid-cols-2 gap-2">
+                                <button onclick="randomizeArea('ciencias', 'alto')" class="bg-emerald-100 text-emerald-700 py-2 rounded-lg text-[10px] font-bold hover:bg-emerald-200 transition">ALTO</button>
+                                <button onclick="randomizeArea('ciencias', 'medio-alto')" class="bg-sky-100 text-sky-700 py-2 rounded-lg text-[10px] font-bold hover:bg-sky-200 transition">M-ALT</button>
+                                <button onclick="randomizeArea('ciencias', 'medio-bajo')" class="bg-amber-100 text-amber-700 py-2 rounded-lg text-[10px] font-bold hover:bg-amber-200 transition">M-BAJ</button>
+                                <button onclick="randomizeArea('ciencias', 'bajo')" class="bg-rose-100 text-rose-700 py-2 rounded-lg text-[10px] font-bold hover:bg-rose-200 transition">BAJO</button>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <h4 class="text-[10px] font-bold text-slate-400 uppercase mb-3 tracking-wider text-center md:text-left">Humanidades e Inglés</h4>
+                            <div class="grid grid-cols-4 md:grid-cols-2 gap-2">
+                                <button onclick="randomizeArea('humanidades', 'alto')" class="bg-emerald-100 text-emerald-700 py-2 rounded-lg text-[10px] font-bold hover:bg-emerald-200 transition">ALTO</button>
+                                <button onclick="randomizeArea('humanidades', 'medio-alto')" class="bg-sky-100 text-sky-700 py-2 rounded-lg text-[10px] font-bold hover:bg-sky-200 transition">M-ALT</button>
+                                <button onclick="randomizeArea('humanidades', 'medio-bajo')" class="bg-amber-100 text-amber-700 py-2 rounded-lg text-[10px] font-bold hover:bg-amber-200 transition">M-BAJ</button>
+                                <button onclick="randomizeArea('humanidades', 'bajo')" class="bg-rose-100 text-rose-700 py-2 rounded-lg text-[10px] font-bold hover:bg-rose-200 transition">BAJO</button>
+                            </div>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                            <h4 class="text-[10px] font-bold text-slate-400 uppercase mb-3 tracking-wider text-center md:text-left">Formación Integral</h4>
+                            <div class="grid grid-cols-4 md:grid-cols-2 gap-2">
+                                <button onclick="randomizeArea('integral', 'alto')" class="bg-emerald-100 text-emerald-700 py-2 rounded-lg text-[10px] font-bold hover:bg-emerald-200 transition">ALTO</button>
+                                <button onclick="randomizeArea('integral', 'medio-alto')" class="bg-sky-100 text-sky-700 py-2 rounded-lg text-[10px] font-bold hover:bg-sky-200 transition">M-ALT</button>
+                                <button onclick="randomizeArea('integral', 'medio-bajo')" class="bg-amber-100 text-amber-700 py-2 rounded-lg text-[10px] font-bold hover:bg-amber-200 transition">M-BAJ</button>
+                                <button onclick="randomizeArea('integral', 'bajo')" class="bg-rose-100 text-rose-700 py-2 rounded-lg text-[10px] font-bold hover:bg-rose-200 transition">BAJO</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="overflow-x-auto border border-slate-100 rounded-3xl pb-2">
+                        <table class="w-full text-left text-sm min-w-[600px]">
+                            <thead class="bg-slate-50 text-slate-400 font-bold uppercase text-[9px] border-b border-slate-100 tracking-wider">
+                                <tr>
+                                    <th class="px-4 py-4">Asignatura</th>
+                                    <th class="px-2 py-4 text-center">P1 (30%)</th>
+                                    <th class="px-2 py-4 text-center">P2 (40%)</th>
+                                    <th class="px-2 py-4 text-center">P3 (30%)</th>
+                                    <th class="px-4 py-4 text-center">Final</th>
+                                    <th class="px-4 py-4 text-center">Desempeño</th>
+                                </tr>
+                            </thead>
+                            <tbody id="grades-body" class="divide-y divide-slate-50"></tbody>
+                        </table>
+                    </div>
+
+                    <!-- Mobile generate button -->
+                    <button onclick="generatePDF()" class="w-full mt-6 bg-indigo-600 text-white font-bold py-4 rounded-xl shadow-lg flex items-center justify-center gap-2 md:hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                        Descargar PDF
+                    </button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // === PERSISTENCIA DE LOGOS Y CONFIG (LOCALSTORAGE) ===
+        let logoLeftBase64 = localStorage.getItem('educamos_logo_left') || null;
+        let logoRightBase64 = localStorage.getItem('educamos_logo_right') || null;
+
+        function loadSavedLogos() {
+            if (logoLeftBase64) {
+                document.getElementById('preview-left').innerHTML = `<img src="${logoLeftBase64}" class="h-full w-full object-contain p-2">`;
+            }
+            if (logoRightBase64) {
+                document.getElementById('preview-right').innerHTML = `<img src="${logoRightBase64}" class="h-full w-full object-contain p-2">`;
+            }
+            
+            // Cargar preferencia del switch
+            const hidePref = localStorage.getItem('educamos_hide_text');
+            if (hidePref === 'true') {
+                document.getElementById('hide-header-text').checked = true;
+            }
+        }
+
+        document.getElementById('logo-left').addEventListener('change', function(e) {
+            readAndSaveImg(e.target.files[0], 'preview-left', 'educamos_logo_left', (b64) => logoLeftBase64 = b64);
+        });
+        document.getElementById('logo-right').addEventListener('change', function(e) {
+            readAndSaveImg(e.target.files[0], 'preview-right', 'educamos_logo_right', (b64) => logoRightBase64 = b64);
+        });
+
+        function readAndSaveImg(file, previewId, storageKey, callback) {
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const b64 = e.target.result;
+                document.getElementById(previewId).innerHTML = `<img src="${b64}" class="h-full w-full object-contain p-2">`;
+                localStorage.setItem(storageKey, b64);
+                callback(b64);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function saveTogglePreference() {
+            const isChecked = document.getElementById('hide-header-text').checked;
+            localStorage.setItem('educamos_hide_text', isChecked);
+        }
+
+        // === CONFIGURACIÓN DE PWA (APP INSTALABLE) ===
+        let deferredPrompt;
+        function initPWA() {
+            const c = document.createElement('canvas');
+            c.width = 512; c.height = 512;
+            const ctx = c.getContext('2d');
+            ctx.fillStyle = '#4f46e5'; ctx.fillRect(0,0,512,512);
+            ctx.fillStyle = '#ffffff'; ctx.font = 'bold 220px Arial'; ctx.textAlign = 'center';
+            ctx.fillText('EV', 256, 330);
+            const iconB64 = c.toDataURL('image/png');
+
+            const manifest = {
+                name: "Boletines Educamos",
+                short_name: "Boletines",
+                start_url: location.href,
+                display: "standalone",
+                background_color: "#f8fafc",
+                theme_color: "#4f46e5",
+                icons: [{ src: iconB64, sizes: "512x512", type: "image/png" }]
+            };
+            const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+            document.getElementById('manifest-link').href = URL.createObjectURL(manifestBlob);
+
+            try {
+                const swCode = `
+                    self.addEventListener('install', (e) => self.skipWaiting());
+                    self.addEventListener('activate', (e) => self.clients.claim());
+                    self.addEventListener('fetch', (e) => { e.respondWith(fetch(e.request).catch(() => new Response('App sin conexión'))); });
+                `;
+                const swBlob = new Blob([swCode], {type: 'application/javascript'});
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => console.warn('Service Worker bloqueado por el navegador:', err));
+                }
+            } catch (error) {
+                console.warn('El protocolo blob no está soportado para Service Workers en este entorno. La app funcionará sin instalación local nativa en esta vista.', error);
+            }
+
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                const btn = document.getElementById('btn-install');
+                if(btn) btn.classList.remove('hidden');
+            });
+        }
+
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choice) => {
+                    if (choice.outcome === 'accepted') document.getElementById('btn-install').classList.add('hidden');
+                    deferredPrompt = null;
+                });
+            }
+        }
+
+        // === LÓGICA DE TABLA DE NOTAS ===
+        const subjectConfig = [
+            { name: "MATEMÁTICA", area: "ciencias" }, { name: "FISICA", area: "ciencias" }, { name: "ESTADÍSTICA", area: "ciencias" },
+            { name: "LENG. CASTELLANO", area: "humanidades" }, { name: "FILOSOFIA", area: "humanidades" }, { name: "INGLÉS", area: "humanidades" },
+            { name: "SOCIALES", area: "humanidades" }, { name: "COMPETENCIAS CIUDADANAS", area: "humanidades" },
+            { name: "NATURALES", area: "ciencias" }, { name: "QUIMICA", area: "ciencias" },
+            { name: "EDUCACIÓN ARTÍSTICA", area: "integral" }, { name: "ÉTICA Y VALORES", area: "integral" },
+            { name: "EDUCACIÓN RELIGIOSA", area: "integral" }, { name: "ED. FÍSICA Y DEPORTES", area: "integral" },
+            { name: "TECNOLOGÍA E INFORMÁTICA", area: "integral" }, { name: "COMPORTAMIENTO SOCIAL", area: "integral" }
+        ];
+
+        let studentsList = [];
+        let studentGrades = {}; 
+
+        function generateNoteOptions() {
+            let options = '<option value="0.0">0.0</option>';
+            for (let i = 10; i <= 50; i++) {
+                let val = (i / 10).toFixed(1);
+                options += `<option value="${val}">${val}</option>`;
+            }
+            return options;
+        }
+
+        function initGradesTable() {
+            const body = document.getElementById('grades-body');
+            const noteOptions = generateNoteOptions();
+            body.innerHTML = '';
+            subjectConfig.forEach((sub, index) => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-indigo-50/30 transition-colors group";
+                tr.innerHTML = `
+                    <td class="px-4 py-3">
+                        <div class="font-bold text-slate-700 text-xs">${sub.name}</div>
+                        <div class="text-[9px] text-slate-400 font-bold uppercase mt-0.5 tracking-tighter">${sub.area}</div>
+                    </td>
+                    <td class="px-2 py-2"><select onchange="calculateRow(${index})" class="p1 w-full max-w-[80px] mx-auto block text-center border border-slate-200 rounded-lg text-xs py-2 bg-white font-medium focus:ring-2 focus:ring-indigo-100 outline-none">${noteOptions}</select></td>
+                    <td class="px-2 py-2"><select onchange="calculateRow(${index})" class="p2 w-full max-w-[80px] mx-auto block text-center border border-slate-200 rounded-lg text-xs py-2 bg-white font-medium focus:ring-2 focus:ring-indigo-100 outline-none">${noteOptions}</select></td>
+                    <td class="px-2 py-2"><select onchange="calculateRow(${index})" class="p3 w-full max-w-[80px] mx-auto block text-center border border-slate-200 rounded-lg text-xs py-2 bg-white font-medium focus:ring-2 focus:ring-indigo-100 outline-none">${noteOptions}</select></td>
+                    <td class="px-4 py-3 text-center font-bold text-slate-900 final-val text-sm">0.0</td>
+                    <td class="px-4 py-3 text-center"><span class="scale-val text-[9px] font-bold px-3 py-1.5 rounded-xl bg-slate-100 text-slate-400 shadow-sm transition-all block max-w-[80px] mx-auto truncate">-</span></td>
+                `;
+                body.appendChild(tr);
+            });
+        }
+
+        function getNoteByLevel(level) {
+            let min, max;
+            switch(level) {
+                case 'alto': min = 40; max = 50; break;
+                case 'medio-alto': min = 35; max = 45; break;
+                case 'medio-bajo': min = 30; max = 35; break;
+                default: min = 10; max = 29; 
+            }
+            return (Math.floor(Math.random() * (max - min + 1)) + min) / 10;
+        }
+
+        function randomizeRow(index, level) {
+            const row = document.querySelectorAll('#grades-body tr')[index];
+            const selects = row.querySelectorAll('select');
+            selects.forEach(sel => { sel.value = getNoteByLevel(level).toFixed(1); });
+            calculateRow(index);
+        }
+
+        function randomizeArea(areaId, level) {
+            subjectConfig.forEach((sub, i) => { if (sub.area === areaId) randomizeRow(i, level); });
+        }
+
+        function randomizeAll(level) {
+            subjectConfig.forEach((_, i) => randomizeRow(i, level));
+        }
+
+        function calculateRow(index) {
+            const rows = document.querySelectorAll('#grades-body tr');
+            const row = rows[index];
+            const p1 = parseFloat(row.querySelector('.p1').value);
+            const p2 = parseFloat(row.querySelector('.p2').value);
+            const p3 = parseFloat(row.querySelector('.p3').value);
+            
+            const final = (p1 * 0.3) + (p2 * 0.4) + (p3 * 0.3);
+            row.querySelector('.final-val').innerText = final.toFixed(1);
+            
+            const scaleTag = row.querySelector('.scale-val');
+            const val = getValoracion(final);
+            scaleTag.innerText = val.text;
+            scaleTag.className = `scale-val text-[9px] font-bold px-2 py-1.5 rounded-xl shadow-sm block max-w-[80px] mx-auto truncate ${val.bg} ${val.color}`;
+            saveCurrentState();
+        }
+
+        function getValoracion(score) {
+            if (score >= 4.6) return { text: "SUPERIOR", bg: "bg-emerald-500/10", color: "text-emerald-700" };
+            if (score >= 4.0) return { text: "ALTO", bg: "bg-sky-500/10", color: "text-sky-700" };
+            if (score >= 3.0) return { text: "BÁSICO", bg: "bg-amber-500/10", color: "text-amber-700" };
+            if (score >= 1.0) return { text: "BAJO", bg: "bg-rose-500/10", color: "text-rose-700" };
+            return { text: "N/A", bg: "bg-slate-100", color: "text-slate-400" };
+        }
+
+        // === GESTIÓN DE ESTUDIANTES ===
+        function processStudents() {
+            const text = document.getElementById('raw-students').value;
+            const lines = text.split('\n').filter(s => s.trim() !== "");
+            studentsList = lines.map(line => {
+                const [name, cycle] = line.split('|').map(s => s.trim());
+                return { name, cycle: cycle || "" };
+            });
+            const select = document.getElementById('select-student');
+            select.innerHTML = '<option value="">--- Escoger Estudiante ---</option>';
+            studentsList.forEach(s => {
+                const opt = document.createElement('option'); opt.value = s.name; opt.innerText = s.name; select.appendChild(opt);
+            });
+            alert(`Base de datos actualizada: ${studentsList.length} estudiantes.`);
+        }
+
+        function updateStudentInfo() {
+            const name = document.getElementById('select-student').value;
+            const badge = document.getElementById('student-selected-badge');
+            const currentName = document.getElementById('current-student-name');
+            const cycleInput = document.getElementById('student-cycle');
+            if (name) {
+                badge.classList.remove('hidden');
+                currentName.innerText = name;
+                const found = studentsList.find(s => s.name === name);
+                if (found) cycleInput.value = found.cycle;
+                loadStudentGrades(name);
+            } else {
+                badge.classList.add('hidden');
+                cycleInput.value = "";
+            }
+        }
+
+        function saveCurrentState() {
+            const name = document.getElementById('select-student').value;
+            if (!name) return;
+            const grades = [];
+            document.querySelectorAll('#grades-body tr').forEach(row => {
+                grades.push({ p1: row.querySelector('.p1').value, p2: row.querySelector('.p2').value, p3: row.querySelector('.p3').value });
+            });
+            studentGrades[name] = grades;
+        }
+
+        function loadStudentGrades(name) {
+            const data = studentGrades[name];
+            const rows = document.querySelectorAll('#grades-body tr');
+            if (data) {
+                data.forEach((d, i) => {
+                    rows[i].querySelector('.p1').value = d.p1; rows[i].querySelector('.p2').value = d.p2; rows[i].querySelector('.p3').value = d.p3;
+                    calculateRow(i);
+                });
+            } else {
+                rows.forEach((r, i) => {
+                    r.querySelector('.p1').value = "0.0"; r.querySelector('.p2').value = "0.0"; r.querySelector('.p3').value = "0.0";
+                    calculateRow(i);
+                });
+            }
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.view-panel').forEach(v => v.classList.add('hidden'));
+            document.getElementById(`view-${tab}`).classList.remove('hidden');
+            document.querySelectorAll('aside nav button').forEach(b => b.classList.remove('bg-slate-800', 'text-indigo-400'));
+            document.getElementById(`btn-${tab}`).classList.add('bg-slate-800', 'text-indigo-400');
+            const titles = { 'alumnos': 'Base de Datos', 'logos': 'Logos Persistentes', 'notas': 'Gestión de Calificaciones' };
+            document.getElementById('view-title').innerText = titles[tab];
+        }
+
+        // === EXPORTACIÓN DE PDF ===
+        async function generatePDF() {
+            const studentName = document.getElementById('select-student').value;
+            const cycle = document.getElementById('student-cycle').value || "---";
+            if (!studentName) return alert("Selecciona un estudiante para continuar.");
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'letter');
+            const pageWidth = doc.internal.pageSize.getWidth();
+            
+            const hideText = document.getElementById('hide-header-text').checked;
+
+            // Logos en PDF (El banner derecho se hace más ancho)
+            if (logoLeftBase64) {
+                doc.addImage(logoLeftBase64, 'PNG', 12, 10, 24, 24);
+            }
+            if (logoRightBase64) {
+                // Dimensiones más anchas para tu banner horizontal
+                doc.addImage(logoRightBase64, 'PNG', pageWidth - 100, 10, 85, 23);
+            }
+
+            // Textos del encabezado
+            if (!hideText) {
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(11);
+                doc.text("Institución Educativa", pageWidth / 2, 15, { align: "center" });
+                doc.setFontSize(16);
+                doc.setTextColor(30, 58, 138);
+                doc.text("EDUCAMOS CON VALORES", pageWidth / 2, 23, { align: "center" });
+                
+                doc.setTextColor(120);
+                doc.setFontSize(7);
+                doc.setFont("helvetica", "normal");
+                doc.text("DANE No: 313836800263", pageWidth / 2, 28, { align: "center" });
+                doc.text("Resolución 0571/2020 – 1072/2021", pageWidth / 2, 32, { align: "center" });
+                doc.text("Secretaría De Educación De Bolívar", pageWidth / 2, 36, { align: "center" });
+            }
+
+            doc.setDrawColor(230);
+            doc.line(15, 42, pageWidth - 15, 42);
+
+            doc.setFontSize(9);
+            doc.setTextColor(0);
+            doc.setFont("helvetica", "bold");
+            doc.text("ESTUDIANTE:", 15, 48);
+            doc.setFont("helvetica", "normal");
+            doc.text(studentName.toUpperCase(), 42, 48);
+            
+            doc.setFont("helvetica", "bold");
+            doc.text("CURSO / CICLO:", 15, 54);
+            doc.setFont("helvetica", "normal");
+            doc.text(cycle.toUpperCase(), 47, 54);
+
+            doc.setFontSize(12);
+            doc.setFont("helvetica", "bold");
+            doc.text("INFORME ACADÉMICO INTEGRAL", pageWidth / 2, 64, { align: "center" });
+
+            const data = [];
+            document.querySelectorAll('#grades-body tr').forEach((tr, i) => {
+                data.push([
+                    subjectConfig[i].name, "2",
+                    tr.querySelector('.p1').value,
+                    tr.querySelector('.p2').value,
+                    tr.querySelector('.p3').value,
+                    tr.querySelector('.final-val').innerText,
+                    tr.querySelector('.scale-val').innerText
+                ]);
+            });
+
+            doc.autoTable({
+                startY: 70,
+                head: [['ASIGNATURAS', 'I.H.S', '1° (30%)', '2° (40%)', '3° (30%)', 'FINAL', 'VALORACIÓN']],
+                body: data,
+                theme: 'grid',
+                headStyles: { fillColor: [15, 23, 42], fontSize: 8, halign: 'center' },
+                styles: { fontSize: 7, cellPadding: 2, textColor: 50 },
+                columnStyles: { 0: { cellWidth: 50, fontStyle: 'bold' }, 5: { fontStyle: 'bold', halign: 'center', textColor: 0 }, 6: { halign: 'center', fontStyle: 'bold' } },
+                margin: { left: 15, right: 15 }
+            });
+
+            const finalY = doc.lastAutoTable.finalY + 8;
+            doc.setFontSize(10);
+            doc.setFont("helvetica", "bold");
+            doc.text("ESCALA DE VALORACIÓN NACIONAL", 15, finalY);
+            
+            doc.autoTable({
+                startY: finalY + 2,
+                body: [
+                    ['SUPERIOR', '4.6 - 5.0', 'Desempeño excepcional.'],
+                    ['ALTO', '4.0 - 4.5', 'Cumple satisfactoriamente.'],
+                    ['BÁSICO', '3.0 - 3.9', 'Alcanza los objetivos mínimos.'],
+                    ['BAJO', '1.0 - 2.9', 'No alcanza los desempeños básicos.']
+                ],
+                theme: 'plain',
+                styles: { fontSize: 7.5, cellPadding: 1, textColor: 80 },
+                margin: { left: 15 }
+            });
+
+            const signY = doc.internal.pageSize.getHeight() - 35;
+            doc.setDrawColor(100);
+            doc.line(20, signY, 80, signY);
+            doc.setFontSize(9);
+            doc.text("SECRETARÍA ACADÉMICA", 50, signY + 5, { align: "center" });
+            doc.line(pageWidth - 80, signY, pageWidth - 20, signY);
+            doc.text("DIRECCIÓN / RECTORÍA", pageWidth - 50, signY + 5, { align: "center" });
+
+            doc.save(`Boletin_${studentName.replace(/\s+/g, '_')}.pdf`);
+        }
+
+        // === INICIALIZACIÓN ===
+        window.onload = function() {
+            loadSavedLogos(); // Cargar los logos desde localStorage
+            initPWA();
+            initGradesTable();
+            processStudents();
+            switchTab('notas'); // Abre directo en notas por comodidad
+        };
+    </script>
+</body>
+</html>
