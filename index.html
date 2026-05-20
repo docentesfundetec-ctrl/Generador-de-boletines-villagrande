@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Boletines Educamos</title>
-    <meta name="theme-color" content="#1e293b">
+    <title>Plataforma Educativa CTG</title>
+    <meta name="theme-color" content="#0f172a">
     <link id="manifest-link" rel="manifest" href="">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -20,14 +20,12 @@
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         
-        /* Switch Toggle CSS */
         .toggle-checkbox:checked { right: 0; border-color: #4f46e5; }
         .toggle-checkbox:checked + .toggle-label { background-color: #4f46e5; }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
 
-    <!-- Datalist para el autocompletado de materias personalizadas -->
     <datalist id="materias-list">
         <option value="MATEMÁTICA"></option>
         <option value="FISICA"></option>
@@ -48,36 +46,39 @@
     </datalist>
 
     <div class="flex h-screen overflow-hidden flex-col md:flex-row">
-        <!-- Sidebar / Menú Inferior (En móviles) -->
-        <aside class="w-full md:w-72 bg-slate-900 text-white flex flex-col shadow-xl z-20 md:relative absolute bottom-0 md:h-full">
+        <!-- Sidebar -->
+        <aside class="w-full md:w-64 bg-slate-900 text-white flex flex-col shadow-xl z-20 md:relative absolute bottom-0 md:h-full">
             <div class="p-6 border-b border-slate-700 hidden md:block">
-                <h1 class="text-xl font-bold tracking-tight text-indigo-400">EDUCAMOS</h1>
-                <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-1 font-semibold">Institución Educativa</p>
+                <h1 class="text-xl font-bold tracking-tight text-indigo-400 leading-tight">PLATAFORMA<br>CTG</h1>
+                <p class="text-[10px] text-slate-400 uppercase tracking-widest mt-2 font-semibold">Gestión Educativa</p>
             </div>
             
-            <nav class="flex-1 p-2 md:p-4 flex md:flex-col overflow-y-auto justify-around md:justify-start gap-2">
-                <button onclick="switchTab('alumnos')" class="flex-1 md:flex-none text-left p-3 rounded-xl hover:bg-slate-800 transition flex flex-col md:flex-row items-center gap-1 md:gap-3 justify-center md:justify-start" id="btn-alumnos">
+            <nav class="flex-1 p-2 md:p-4 flex md:flex-col overflow-y-auto justify-around md:justify-start gap-1">
+                <button onclick="switchTab('alumnos')" class="flex-1 md:flex-none text-left p-3 rounded-xl hover:bg-slate-800 transition flex flex-col md:flex-row items-center gap-1 md:gap-3" id="btn-alumnos">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
                     <span class="text-[10px] md:text-sm text-center md:text-left">Alumnos</span>
                 </button>
-                <button onclick="switchTab('logos')" class="flex-1 md:flex-none text-left p-3 rounded-xl hover:bg-slate-800 transition flex flex-col md:flex-row items-center gap-1 md:gap-3 justify-center md:justify-start" id="btn-logos">
+                <button onclick="switchTab('logos')" class="flex-1 md:flex-none text-left p-3 rounded-xl hover:bg-slate-800 transition flex flex-col md:flex-row items-center gap-1 md:gap-3" id="btn-logos">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
                     <span class="text-[10px] md:text-sm text-center md:text-left">Logos</span>
                 </button>
-                <button onclick="switchTab('notas')" class="flex-1 md:flex-none text-left p-3 rounded-xl hover:bg-slate-800 transition flex flex-col md:flex-row items-center gap-1 md:gap-3 justify-center md:justify-start" id="btn-notas">
+                <button onclick="switchTab('asistencia')" class="flex-1 md:flex-none text-left p-3 rounded-xl hover:bg-slate-800 transition flex flex-col md:flex-row items-center gap-1 md:gap-3" id="btn-asistencia">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>
+                    <span class="text-[10px] md:text-sm text-center md:text-left">Asistencia</span>
+                </button>
+                <button onclick="switchTab('actividades')" class="flex-1 md:flex-none text-left p-3 rounded-xl hover:bg-slate-800 transition flex flex-col md:flex-row items-center gap-1 md:gap-3" id="btn-actividades">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" /></svg>
+                    <span class="text-[10px] md:text-sm text-center md:text-left">Actividades</span>
+                </button>
+                <button onclick="switchTab('notas')" class="flex-1 md:flex-none text-left p-3 rounded-xl hover:bg-slate-800 transition flex flex-col md:flex-row items-center gap-1 md:gap-3" id="btn-notas">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-5 md:w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                    <span class="text-[10px] md:text-sm text-center md:text-left">Calificar</span>
+                    <span class="text-[10px] md:text-sm text-center md:text-left">Boletines</span>
                 </button>
             </nav>
 
             <div class="p-4 border-t border-slate-700 bg-slate-950 flex flex-col gap-3 hidden md:flex" id="desktop-actions">
                 <button onclick="installPWA()" id="btn-install" class="hidden w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 rounded-xl transition shadow-lg flex items-center justify-center gap-2 text-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                     Instalar App
-                </button>
-                <button onclick="generatePDF()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-3 rounded-xl transition shadow-lg flex items-center justify-center gap-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                    Exportar PDF
                 </button>
             </div>
         </aside>
@@ -86,19 +87,17 @@
         <main class="flex-1 overflow-y-auto p-4 md:p-8 pb-24 md:pb-8">
             <header class="mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h2 id="view-title" class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">Carga de Datos</h2>
-                    <p class="text-slate-500 text-xs md:text-sm">EDUCAMOS CON VALORES</p>
-                </div>
-                <div id="student-selected-badge" class="hidden bg-indigo-50 text-indigo-700 px-4 py-2 rounded-2xl text-xs md:text-sm font-bold border border-indigo-100 shadow-sm self-start md:self-auto">
-                    Editando: <span id="current-student-name" class="text-slate-900 ml-1">---</span>
+                    <h2 id="view-title" class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">Gestión de Alumnos</h2>
+                    <p class="text-slate-500 text-xs md:text-sm">PLATAFORMA EDUCATIVA CTG</p>
                 </div>
             </header>
 
             <!-- View: Alumnos -->
             <section id="view-alumnos" class="view-panel space-y-6">
                 <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-5 md:p-8">
-                    <label class="block text-xs font-bold text-slate-400 mb-3 uppercase tracking-widest">Base de Estudiantes</label>
-                    <textarea id="raw-students" rows="12" class="w-full border-slate-200 rounded-2xl p-4 font-mono text-[10px] md:text-xs bg-slate-50 mb-4 focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="Nombre | Grado">ADHARA SOPHIA PALLARES FELIZOLA | PRE JARDIN
+                    <label class="block text-xs font-bold text-slate-400 mb-3 uppercase tracking-widest">Base de Datos General</label>
+                    <p class="text-xs text-slate-500 mb-4">Ingresa la lista en formato: <strong>Nombre Completo | Curso</strong>. El sistema creará los salones automáticamente.</p>
+                    <textarea id="raw-students" rows="12" class="w-full border-slate-200 rounded-2xl p-4 font-mono text-[10px] md:text-xs bg-slate-50 mb-4 focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="Juan Perez | SEPTIMO">ADHARA SOPHIA PALLARES FELIZOLA | PRE JARDIN
 Adrian Carrascal España | CLEI V
 Adrian Jesus Carrascal España | CLEI V
 Adrian Joel Mejia Romero | CLEI V
@@ -272,44 +271,106 @@ Yoelis medina Alcazar | SEXTO
 Yoneiber ezequiel quijada perez | CLEI V
 Yorbelys Rishel Ramirez Quijada | CLEI IV
 Zuñiga Rincon Camilo Andres | CLEI V</textarea>
-                    <button onclick="processStudents()" class="w-full md:w-auto bg-indigo-600 text-white px-10 py-3.5 rounded-2xl hover:bg-indigo-700 transition font-bold shadow-md">Procesar y Guardar Lista</button>
+                    <button onclick="processStudents()" class="w-full md:w-auto bg-indigo-600 text-white px-10 py-3.5 rounded-2xl hover:bg-indigo-700 transition font-bold shadow-md">Procesar y Crear Salones</button>
                 </div>
             </section>
 
             <!-- View: Logos -->
             <section id="view-logos" class="view-panel hidden space-y-6">
-                
                 <div class="bg-indigo-50 border border-indigo-200 text-indigo-800 rounded-2xl p-4 text-sm flex items-start gap-3">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    <p>Sube tus logos aquí <strong>una sola vez</strong>. La aplicación los guardará automáticamente en tu dispositivo para que no tengas que volver a subirlos cada vez que entres.</p>
+                    <p>Sube tus logos <strong>una sola vez</strong>. La plataforma los guardará y los usará en todos los PDFs de asistencia, actividades y boletines.</p>
                 </div>
-
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 md:p-8">
-                        <label class="block text-xs font-bold text-slate-400 mb-5 uppercase tracking-widest">Logo Principal (Izquierda)</label>
+                        <label class="block text-xs font-bold text-slate-400 mb-5 uppercase tracking-widest">Sello Principal (Izquierda)</label>
                         <input type="file" id="logo-left" accept="image/*" class="w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-6 file:rounded-full file:border-0 file:bg-indigo-50 file:text-indigo-700 font-bold cursor-pointer outline-none"/>
-                        <p class="text-[10px] text-slate-400 mt-2 ml-1">Sube el logo circular (Fundación Dunamis).</p>
                         <div id="preview-left" class="mt-6 h-32 w-32 border border-slate-100 rounded-full flex items-center justify-center overflow-hidden mx-auto bg-slate-50 shadow-inner">
                             <span class="text-[10px] text-slate-300 font-bold">VACÍO</span>
                         </div>
                     </div>
                     
                     <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-6 md:p-8">
-                        <label class="block text-xs font-bold text-slate-400 mb-5 uppercase tracking-widest">Banner Encabezado (Derecha)</label>
+                        <label class="block text-xs font-bold text-slate-400 mb-5 uppercase tracking-widest">Banner Institucional (Derecha)</label>
                         <input type="file" id="logo-right" accept="image/*" class="w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-6 file:rounded-full file:border-0 file:bg-indigo-50 file:text-indigo-700 font-bold cursor-pointer outline-none"/>
-                        <p class="text-[10px] text-slate-400 mt-2 ml-1">Sube el banner con el mapa de Colombia.</p>
                         <div id="preview-right" class="mt-6 h-32 w-full border border-slate-100 rounded-2xl flex items-center justify-center overflow-hidden bg-slate-50 shadow-inner">
                             <span class="text-[10px] text-slate-300 font-bold">VACÍO</span>
                         </div>
                     </div>
                 </div>
-
             </section>
 
-            <!-- View: Notas -->
+            <!-- View: Asistencia -->
+            <section id="view-asistencia" class="view-panel hidden space-y-6">
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-4 md:p-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6 border-b border-slate-100 pb-6">
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Seleccionar Salón (Curso)</label>
+                            <select id="course-select-asistencia" onchange="renderAsistencia()" class="w-full border border-slate-200 rounded-xl py-3 px-4 font-semibold text-slate-700 focus:ring-2 focus:ring-indigo-500 outline-none"></select>
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Fecha de Registro</label>
+                            <input type="date" id="date-asistencia" class="w-full border border-slate-200 rounded-xl py-3 px-4 font-semibold text-slate-700 focus:ring-2 focus:ring-indigo-500 outline-none">
+                        </div>
+                        <div class="flex items-end">
+                             <button onclick="generateAsistenciaPDF()" class="w-full bg-emerald-600 text-white font-bold py-3 rounded-xl shadow-md hover:bg-emerald-700 transition flex items-center justify-center gap-2">
+                                Exportar Asistencia (PDF)
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto border border-slate-100 rounded-3xl pb-2">
+                        <table class="w-full text-left text-sm min-w-[500px]">
+                            <thead class="bg-slate-800 text-white font-bold uppercase text-[10px] tracking-wider">
+                                <tr>
+                                    <th class="px-6 py-4 rounded-tl-xl w-1/2">Estudiante</th>
+                                    <th class="px-2 py-4 text-center">Presente</th>
+                                    <th class="px-2 py-4 text-center">Ausente</th>
+                                    <th class="px-2 py-4 text-center rounded-tr-xl">Excusa</th>
+                                </tr>
+                            </thead>
+                            <tbody id="asistencia-body" class="divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: Actividades -->
+            <section id="view-actividades" class="view-panel hidden space-y-6">
+                <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-4 md:p-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6 border-b border-slate-100 pb-6">
+                        <div>
+                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Salón (Curso)</label>
+                            <select id="course-select-actividades" onchange="renderActividades()" class="w-full border border-slate-200 rounded-xl py-3 px-4 font-semibold text-slate-700 focus:ring-2 focus:ring-indigo-500 outline-none"></select>
+                        </div>
+                        <div class="lg:col-span-2">
+                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Nombre de la Actividad</label>
+                            <input type="text" id="name-actividad" placeholder="Ej: Taller de Comprensión Lectora" class="w-full border border-slate-200 rounded-xl py-3 px-4 font-semibold text-slate-700 focus:ring-2 focus:ring-indigo-500 outline-none">
+                        </div>
+                        <div class="flex items-end">
+                             <button onclick="generateActividadPDF()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl shadow-md hover:bg-blue-700 transition flex items-center justify-center gap-2">
+                                Informe Actividad (PDF)
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto border border-slate-100 rounded-3xl pb-2">
+                        <table class="w-full text-left text-sm min-w-[500px]">
+                            <thead class="bg-slate-800 text-white font-bold uppercase text-[10px] tracking-wider">
+                                <tr>
+                                    <th class="px-6 py-4 rounded-tl-xl w-3/4">Estudiante</th>
+                                    <th class="px-4 py-4 text-center rounded-tr-xl">Nota de Actividad</th>
+                                </tr>
+                            </thead>
+                            <tbody id="actividades-body" class="divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- View: Notas (Boletines) -->
             <section id="view-notas" class="view-panel hidden space-y-6">
                 
-                <!-- Opciones de Modo -->
                 <div class="bg-indigo-50 rounded-2xl p-5 flex flex-col md:flex-row gap-4 items-start md:items-center justify-between border border-indigo-100">
                     <div>
                         <h3 class="font-bold text-indigo-900 text-sm">Plantilla a utilizar</h3>
@@ -329,15 +390,15 @@ Zuñiga Rincon Camilo Andres | CLEI V</textarea>
 
                 <div class="bg-white rounded-3xl shadow-sm border border-slate-200 p-4 md:p-8">
                     
-                    <!-- Top Controls -->
+                    <!-- Top Controls Boletines -->
                     <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-6 mb-6 border-b border-slate-100 pb-6">
-                        <div class="lg:col-span-4">
-                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Estudiante</label>
-                            <select id="select-student" onchange="updateStudentInfo()" class="w-full border border-slate-200 rounded-xl py-3 px-4 font-semibold text-slate-700 focus:ring-2 focus:ring-indigo-500 outline-none"></select>
-                        </div>
                         <div class="lg:col-span-3">
-                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Grado Actual</label>
-                            <input type="text" id="student-cycle" class="w-full border border-slate-200 rounded-xl py-3 px-4 font-semibold text-slate-700" placeholder="Ej: CLEI V">
+                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Filtrar por Salón</label>
+                            <select id="course-select-notas" onchange="updateStudentDropdown()" class="w-full border border-slate-200 rounded-xl py-3 px-4 font-semibold text-slate-700 focus:ring-2 focus:ring-indigo-500 outline-none"></select>
+                        </div>
+                        <div class="lg:col-span-4">
+                            <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Seleccionar Estudiante</label>
+                            <select id="select-student" onchange="loadStudentGrades(this.value)" class="w-full border border-slate-200 rounded-xl py-3 px-4 font-semibold text-slate-700 focus:ring-2 focus:ring-indigo-500 outline-none"></select>
                         </div>
                         <div class="lg:col-span-5 flex flex-col justify-end">
                             <label class="block text-[10px] font-bold text-slate-400 uppercase mb-2">Llenado Rápido Total</label>
@@ -349,11 +410,11 @@ Zuñiga Rincon Camilo Andres | CLEI V</textarea>
                         </div>
                     </div>
 
-                    <!-- Custom Tool Bar (Solo visible en Personalizable) -->
+                    <!-- Custom Tool Bar -->
                     <div id="custom-tools" class="hidden mb-6 flex flex-col md:flex-row gap-4 items-center justify-between bg-slate-50 p-4 rounded-2xl border border-slate-200">
                         <label class="flex items-center gap-2 cursor-pointer text-xs font-bold text-slate-700">
                             <input type="checkbox" id="hide-institucion" class="w-4 h-4 text-indigo-600 rounded">
-                            Boletín en blanco (Ocultar Logos y Nombre de Institución)
+                            Boletín en blanco (Ocultar Membrete Institucional)
                         </label>
                         <button onclick="addCustomRow()" class="bg-white border border-slate-200 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold hover:bg-slate-100 shadow-sm flex gap-2 items-center">
                             + Agregar Asignatura
@@ -411,8 +472,7 @@ Zuñiga Rincon Camilo Andres | CLEI V</textarea>
 
                     <!-- Mobile generate button -->
                     <button onclick="generatePDF()" class="w-full mt-6 bg-indigo-600 text-white font-bold py-4 rounded-xl shadow-lg flex items-center justify-center gap-2 md:hidden">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
-                        Descargar PDF
+                        Descargar Boletín (PDF)
                     </button>
                 </div>
             </section>
@@ -420,13 +480,20 @@ Zuñiga Rincon Camilo Andres | CLEI V</textarea>
     </div>
 
     <script>
-        // === PERSISTENCIA DE LOGOS Y CONFIG ===
+        // === DATOS GLOBALES ===
+        let studentsList = []; // { name, course }
+        let coursesList = []; // unique courses
+        let studentGrades = {}; 
+
+        // === PERSISTENCIA DE LOGOS ===
         let logoLeftBase64 = localStorage.getItem('educamos_logo_left') || null;
         let logoRightBase64 = localStorage.getItem('educamos_logo_right') || null;
 
         function loadSavedLogos() {
             if (logoLeftBase64) document.getElementById('preview-left').innerHTML = `<img src="${logoLeftBase64}" class="h-full w-full object-contain p-2">`;
             if (logoRightBase64) document.getElementById('preview-right').innerHTML = `<img src="${logoRightBase64}" class="h-full w-full object-contain p-2">`;
+            const dateInput = document.getElementById('date-asistencia');
+            if(dateInput) dateInput.valueAsDate = new Date();
         }
 
         document.getElementById('logo-left').addEventListener('change', function(e) {
@@ -456,41 +523,33 @@ Zuñiga Rincon Camilo Andres | CLEI V</textarea>
             const ctx = c.getContext('2d');
             ctx.fillStyle = '#4f46e5'; ctx.fillRect(0,0,512,512);
             ctx.fillStyle = '#ffffff'; ctx.font = 'bold 220px Arial'; ctx.textAlign = 'center';
-            ctx.fillText('EV', 256, 330);
+            ctx.fillText('CTG', 256, 330);
             const iconB64 = c.toDataURL('image/png');
 
             const manifest = {
-                name: "Boletines Educamos",
-                short_name: "Boletines",
+                name: "Plataforma Educativa CTG",
+                short_name: "Plat. CTG",
                 start_url: location.href,
                 display: "standalone",
                 background_color: "#f8fafc",
-                theme_color: "#4f46e5",
+                theme_color: "#0f172a",
                 icons: [{ src: iconB64, sizes: "512x512", type: "image/png" }]
             };
             const manifestBlob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
             document.getElementById('manifest-link').href = URL.createObjectURL(manifestBlob);
 
             try {
-                const swCode = `
-                    self.addEventListener('install', (e) => self.skipWaiting());
-                    self.addEventListener('activate', (e) => self.clients.claim());
-                    self.addEventListener('fetch', (e) => { e.respondWith(fetch(e.request).catch(() => new Response('App sin conexión'))); });
-                `;
+                const swCode = `self.addEventListener('fetch', (e) => {});`;
                 const swBlob = new Blob([swCode], {type: 'application/javascript'});
-                if ('serviceWorker' in navigator) {
-                    navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(err => console.warn('SW ignorado en entorno temporal', err));
-                }
+                if ('serviceWorker' in navigator) navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(()=>{});
             } catch (error) {}
 
             window.addEventListener('beforeinstallprompt', (e) => {
-                e.preventDefault();
-                deferredPrompt = e;
+                e.preventDefault(); deferredPrompt = e;
                 const btn = document.getElementById('btn-install');
                 if(btn) btn.classList.remove('hidden');
             });
         }
-
         function installPWA() {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
@@ -501,7 +560,196 @@ Zuñiga Rincon Camilo Andres | CLEI V</textarea>
             }
         }
 
-        // === LÓGICA DE TABLA DE NOTAS Y MODOS ===
+        // === GESTIÓN GENERAL DE ESTUDIANTES ===
+        function processStudents() {
+            const text = document.getElementById('raw-students').value;
+            const lines = text.split('\n').filter(s => s.trim() !== "");
+            studentsList = lines.map(line => {
+                const parts = line.split('|');
+                return { name: parts[0].trim(), course: (parts[1] || "Sin Asignar").trim() };
+            });
+
+            // Extraer cursos únicos y ordenarlos
+            coursesList = [...new Set(studentsList.map(s => s.course))].sort();
+
+            populateCourseDropdowns();
+            alert(`Datos procesados:\n${studentsList.length} Estudiantes\n${coursesList.length} Salones Creados`);
+        }
+
+        function populateCourseDropdowns() {
+            const selects = ['course-select-notas', 'course-select-asistencia', 'course-select-actividades'];
+            selects.forEach(id => {
+                const sel = document.getElementById(id);
+                if(!sel) return;
+                sel.innerHTML = '<option value="">--- Seleccionar Salón ---</option>';
+                coursesList.forEach(c => {
+                    sel.innerHTML += `<option value="${c}">${c}</option>`;
+                });
+            });
+            // Reset dependent views
+            document.getElementById('select-student').innerHTML = '<option value="">--- Escoger Estudiante ---</option>';
+            document.getElementById('asistencia-body').innerHTML = '';
+            document.getElementById('actividades-body').innerHTML = '';
+        }
+
+        function getStudentsByCourse(course) {
+            return studentsList.filter(s => s.course === course).sort((a, b) => a.name.localeCompare(b.name));
+        }
+
+        // === LÓGICA DE ASISTENCIA ===
+        function renderAsistencia() {
+            const course = document.getElementById('course-select-asistencia').value;
+            const tbody = document.getElementById('asistencia-body');
+            tbody.innerHTML = '';
+            if(!course) return;
+
+            const courseStudents = getStudentsByCourse(course);
+            courseStudents.forEach((s, idx) => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition-colors";
+                tr.innerHTML = `
+                    <td class="px-6 py-4 font-semibold text-slate-700 text-xs truncate max-w-[200px]" title="${s.name}">${s.name}</td>
+                    <td class="px-2 py-4 text-center"><input type="radio" name="att_${idx}" value="Presente" checked class="w-4 h-4 text-emerald-600 focus:ring-emerald-500 cursor-pointer"></td>
+                    <td class="px-2 py-4 text-center"><input type="radio" name="att_${idx}" value="Ausente" class="w-4 h-4 text-rose-600 focus:ring-rose-500 cursor-pointer"></td>
+                    <td class="px-2 py-4 text-center"><input type="radio" name="att_${idx}" value="Excusa" class="w-4 h-4 text-amber-600 focus:ring-amber-500 cursor-pointer"></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function generateAsistenciaPDF() {
+            const course = document.getElementById('course-select-asistencia').value;
+            const date = document.getElementById('date-asistencia').value;
+            if(!course) return alert("Selecciona un salón primero.");
+            
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'letter');
+            const pageWidth = doc.internal.pageSize.getWidth();
+
+            drawPDFHeader(doc, pageWidth);
+
+            doc.setFontSize(14);
+            doc.setTextColor(0);
+            doc.setFont("helvetica", "bold");
+            doc.text("REPORTE DE ASISTENCIA DIARIA", pageWidth / 2, 55, { align: "center" });
+
+            doc.setFontSize(10);
+            doc.text(`SALÓN / CURSO: ${course}`, 15, 65);
+            doc.text(`FECHA: ${date || 'No especificada'}`, pageWidth - 15, 65, { align: "right" });
+
+            const data = [];
+            const rows = document.querySelectorAll('#asistencia-body tr');
+            rows.forEach(tr => {
+                const name = tr.querySelector('td').innerText;
+                const status = tr.querySelector('input:checked').value;
+                data.push([name, status, ""]);
+            });
+
+            doc.autoTable({
+                startY: 70,
+                head: [['ESTUDIANTE', 'ESTADO', 'OBSERVACIONES']],
+                body: data,
+                theme: 'grid',
+                headStyles: { fillColor: [30, 41, 59], textColor: [255, 255, 255], fontSize: 9, halign: 'center' },
+                styles: { fontSize: 8, cellPadding: 2 },
+                columnStyles: { 0: { cellWidth: 90 }, 1: { halign: 'center', fontStyle: 'bold' } },
+                margin: { left: 15, right: 15 }
+            });
+
+            doc.save(`Asistencia_${course.replace(/\s+/g, '_')}_${date}.pdf`);
+        }
+
+        // === LÓGICA DE ACTIVIDADES ===
+        function renderActividades() {
+            const course = document.getElementById('course-select-actividades').value;
+            const tbody = document.getElementById('actividades-body');
+            tbody.innerHTML = '';
+            if(!course) return;
+
+            const courseStudents = getStudentsByCourse(course);
+            const options = generateNoteOptions('0.0');
+            
+            courseStudents.forEach(s => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition-colors";
+                tr.innerHTML = `
+                    <td class="px-6 py-4 font-semibold text-slate-700 text-xs truncate max-w-[200px]" title="${s.name}">${s.name}</td>
+                    <td class="px-4 py-4 text-center">
+                        <select class="act-nota w-24 mx-auto block text-center border border-slate-200 rounded-lg text-xs py-2 bg-white font-bold text-indigo-700 focus:ring-2 focus:ring-indigo-100 outline-none">${options}</select>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function generateActividadPDF() {
+            const course = document.getElementById('course-select-actividades').value;
+            const activityName = document.getElementById('name-actividad').value.trim();
+            if(!course) return alert("Selecciona un salón primero.");
+            if(!activityName) return alert("Escribe el nombre de la actividad.");
+            
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF('p', 'mm', 'letter');
+            const pageWidth = doc.internal.pageSize.getWidth();
+
+            drawPDFHeader(doc, pageWidth);
+
+            doc.setFontSize(14);
+            doc.setTextColor(0);
+            doc.setFont("helvetica", "bold");
+            doc.text("REPORTE DE CALIFICACIÓN DE ACTIVIDAD", pageWidth / 2, 55, { align: "center" });
+
+            doc.setFontSize(10);
+            doc.text(`ACTIVIDAD: ${activityName.toUpperCase()}`, 15, 65);
+            doc.text(`SALÓN: ${course}`, pageWidth - 15, 65, { align: "right" });
+
+            const data = [];
+            const rows = document.querySelectorAll('#actividades-body tr');
+            rows.forEach(tr => {
+                const name = tr.querySelector('td').innerText;
+                const nota = tr.querySelector('.act-nota').value;
+                const val = getValoracion(parseFloat(nota)).text;
+                data.push([name, nota, val]);
+            });
+
+            doc.autoTable({
+                startY: 70,
+                head: [['ESTUDIANTE', 'NOTA', 'DESEMPEÑO']],
+                body: data,
+                theme: 'grid',
+                headStyles: { fillColor: [30, 41, 59], textColor: [255, 255, 255], fontSize: 9, halign: 'center' },
+                styles: { fontSize: 8, cellPadding: 2 },
+                columnStyles: { 0: { cellWidth: 100 }, 1: { halign: 'center', fontStyle: 'bold' }, 2: { halign: 'center' } },
+                margin: { left: 15, right: 15 }
+            });
+
+            doc.save(`Actividad_${activityName.replace(/\s+/g, '_')}_${course.replace(/\s+/g, '_')}.pdf`);
+        }
+
+        // === HEADER COMPARTIDO PDF ===
+        function drawPDFHeader(doc, pageWidth) {
+            if (logoLeftBase64) doc.addImage(logoLeftBase64, 'PNG', 12, 10, 24, 24);
+            if (logoRightBase64) doc.addImage(logoRightBase64, 'PNG', pageWidth - 100, 10, 85, 23);
+
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(11);
+            doc.text("PLATAFORMA EDUCATIVA CTG", pageWidth / 2, 15, { align: "center" });
+            doc.setFontSize(14);
+            doc.setTextColor(30, 58, 138);
+            doc.text("EDUCAMOS CON VALORES", pageWidth / 2, 23, { align: "center" });
+            
+            doc.setTextColor(120);
+            doc.setFontSize(7);
+            doc.setFont("helvetica", "normal");
+            doc.text("DANE No: 313836800263", pageWidth / 2, 28, { align: "center" });
+            doc.text("Resolución 0571/2020 – 1072/2021", pageWidth / 2, 32, { align: "center" });
+            doc.text("Secretaría De Educación De Bolívar", pageWidth / 2, 36, { align: "center" });
+
+            doc.setDrawColor(230);
+            doc.line(15, 42, pageWidth - 15, 42);
+        }
+
+        // === LÓGICA DE TABLA DE NOTAS Y MODOS (BOLETINES) ===
         const subjectConfig = [
             { name: "MATEMÁTICA", area: "ciencias" }, { name: "FISICA", area: "ciencias" }, { name: "ESTADÍSTICA", area: "ciencias" },
             { name: "LENG. CASTELLANO", area: "humanidades" }, { name: "FILOSOFIA", area: "humanidades" }, { name: "INGLÉS", area: "humanidades" },
@@ -511,9 +759,6 @@ Zuñiga Rincon Camilo Andres | CLEI V</textarea>
             { name: "EDUCACIÓN RELIGIOSA", area: "integral" }, { name: "ED. FÍSICA Y DEPORTES", area: "integral" },
             { name: "TECNOLOGÍA E INFORMÁTICA", area: "integral" }, { name: "COMPORTAMIENTO SOCIAL", area: "integral" }
         ];
-
-        let studentsList = [];
-        let studentGrades = {}; 
 
         function generateNoteOptions(selectedVal) {
             let options = `<option value="0.0" ${selectedVal==='0.0'?'selected':''}>0.0</option>`;
@@ -547,7 +792,7 @@ Zuñiga Rincon Camilo Andres | CLEI V</textarea>
                 ${isCustom ? `<td class="px-2 py-3 text-center"><button onclick="this.closest('tr').remove(); saveCurrentState();" class="text-rose-400 hover:text-rose-600 font-bold text-lg leading-none" title="Eliminar asignatura">&times;</button></td>` : ''}
             `;
 
-            setTimeout(() => calculateRow(tr), 0); // Actualiza los totales inmediatemente
+            setTimeout(() => calculateRow(tr), 0);
             return tr;
         }
 
@@ -571,7 +816,7 @@ Zuñiga Rincon Camilo Andres | CLEI V</textarea>
                 customCol.classList.remove('hidden');
                 
                 if (forceReset) {
-                    for(let i=0; i<6; i++) { // 6 filas vacías por defecto
+                    for(let i=0; i<6; i++) { 
                         body.appendChild(createRowHTML({subject: '', p1: '0.0', p2: '0.0', p3: '0.0', area: 'general'}, true));
                     }
                 }
@@ -599,7 +844,7 @@ Zuñiga Rincon Camilo Andres | CLEI V</textarea>
             saveCurrentState();
         }
 
-        // --- Randomizador Actualizado para no fallar jamás ---
+        // --- Lógica del Randomizador Seguro ---
         function getNoteByLevel(level) {
             let min, max;
             switch(level) {
@@ -612,7 +857,7 @@ Zuñiga Rincon Camilo Andres | CLEI V</textarea>
         }
 
         function randomizeRow(row, level) {
-            const selects = row.querySelectorAll('select');
+            const selects = row.querySelectorAll('select.p1, select.p2, select.p3');
             selects.forEach(sel => { sel.value = getNoteByLevel(level).toFixed(1); });
             calculateRow(row);
         }
@@ -652,37 +897,19 @@ Zuñiga Rincon Camilo Andres | CLEI V</textarea>
             return { text: "N/A", bg: "bg-slate-100", color: "text-slate-400" };
         }
 
-        // === GESTIÓN DE ESTUDIANTES ===
-        function processStudents() {
-            const text = document.getElementById('raw-students').value;
-            const lines = text.split('\n').filter(s => s.trim() !== "");
-            studentsList = lines.map(line => {
-                const [name, cycle] = line.split('|').map(s => s.trim());
-                return { name, cycle: cycle || "" };
-            });
+        // --- Gestión de Estudiantes en Boletín ---
+        function updateStudentDropdown() {
+            const course = document.getElementById('course-select-notas').value;
             const select = document.getElementById('select-student');
+            
             select.innerHTML = '<option value="">--- Escoger Estudiante ---</option>';
-            studentsList.forEach(s => {
-                const opt = document.createElement('option'); opt.value = s.name; opt.innerText = s.name; select.appendChild(opt);
-            });
-            alert(`Base de datos actualizada: ${studentsList.length} estudiantes.`);
-        }
-
-        function updateStudentInfo() {
-            const name = document.getElementById('select-student').value;
-            const badge = document.getElementById('student-selected-badge');
-            const currentName = document.getElementById('current-student-name');
-            const cycleInput = document.getElementById('student-cycle');
-            if (name) {
-                badge.classList.remove('hidden');
-                currentName.innerText = name;
-                const found = studentsList.find(s => s.name === name);
-                if (found) cycleInput.value = found.cycle;
-                loadStudentGrades(name);
-            } else {
-                badge.classList.add('hidden');
-                cycleInput.value = "";
+            if(course) {
+                const courseStudents = getStudentsByCourse(course);
+                courseStudents.forEach(s => {
+                    select.innerHTML += `<option value="${s.name}">${s.name}</option>`;
+                });
             }
+            initGradesTable(true); // reset table on change
         }
 
         function saveCurrentState() {
@@ -704,11 +931,14 @@ Zuñiga Rincon Camilo Andres | CLEI V</textarea>
         }
 
         function loadStudentGrades(name) {
+            if(!name) {
+                initGradesTable(true);
+                return;
+            }
             const data = studentGrades[name];
             if (data) {
-                // Adaptar interfaz al modo en el que se guardó el estudiante
                 document.querySelector(`input[name="b-mode"][value="${data.mode}"]`).checked = true;
-                initGradesTable(false); // preparar interfaz sin borrar filas
+                initGradesTable(false); 
                 
                 const body = document.getElementById('grades-body');
                 body.innerHTML = '';
@@ -717,58 +947,51 @@ Zuñiga Rincon Camilo Andres | CLEI V</textarea>
                     body.appendChild(createRowHTML(g, data.mode === 'custom'));
                 });
             } else {
-                initGradesTable(true); // Estudiante nuevo, cargar tabla por defecto
+                initGradesTable(true); 
             }
         }
 
+        // === NAVEGACIÓN Y EXPORTACIÓN DE BOLETÍN PDF ===
         function switchTab(tab) {
             document.querySelectorAll('.view-panel').forEach(v => v.classList.add('hidden'));
             document.getElementById(`view-${tab}`).classList.remove('hidden');
-            document.querySelectorAll('aside nav button').forEach(b => b.classList.remove('bg-slate-800', 'text-indigo-400'));
-            document.getElementById(`btn-${tab}`).classList.add('bg-slate-800', 'text-indigo-400');
-            const titles = { 'alumnos': 'Base de Datos', 'logos': 'Logos Institución', 'notas': 'Gestión de Calificaciones' };
+            
+            const btnPrefixes = ['alumnos', 'logos', 'asistencia', 'actividades', 'notas'];
+            btnPrefixes.forEach(b => {
+                const btn = document.getElementById(`btn-${b}`);
+                if(btn) btn.classList.remove('bg-slate-800', 'text-indigo-400');
+            });
+            
+            const actBtn = document.getElementById(`btn-${tab}`);
+            if(actBtn) actBtn.classList.add('bg-slate-800', 'text-indigo-400');
+            
+            const titles = { 
+                'alumnos': 'Base de Datos de Alumnos', 
+                'logos': 'Identidad Institucional', 
+                'asistencia': 'Registro de Asistencia Diaria',
+                'actividades': 'Calificación de Actividades',
+                'notas': 'Generación de Boletines' 
+            };
             document.getElementById('view-title').innerText = titles[tab];
         }
 
-        // === EXPORTACIÓN DE PDF ===
-        async function generatePDF() {
+        function generatePDF() {
             const studentName = document.getElementById('select-student').value;
-            const cycle = document.getElementById('student-cycle').value || "---";
-            if (!studentName) return alert("Selecciona un estudiante para continuar.");
+            const courseFilter = document.getElementById('course-select-notas').value;
+            if (!studentName) return alert("Selecciona un salón y un estudiante para continuar.");
 
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF('p', 'mm', 'letter');
             const pageWidth = doc.internal.pageSize.getWidth();
             
             const mode = document.querySelector('input[name="b-mode"]:checked').value;
-            // Solo considerar el checkbox si estamos en modo personalizable
             const hideAllHeaders = mode === 'custom' && document.getElementById('hide-institucion').checked;
 
             let currentY = 15;
 
             if (!hideAllHeaders) {
-                // Logos 
-                if (logoLeftBase64) doc.addImage(logoLeftBase64, 'PNG', 12, 10, 24, 24);
-                if (logoRightBase64) doc.addImage(logoRightBase64, 'PNG', pageWidth - 100, 10, 85, 23);
-
-                // Textos del encabezado
-                doc.setFont("helvetica", "bold");
-                doc.setFontSize(11);
-                doc.text("Institución Educativa", pageWidth / 2, 15, { align: "center" });
-                doc.setFontSize(16);
-                doc.setTextColor(30, 58, 138);
-                doc.text("EDUCAMOS CON VALORES", pageWidth / 2, 23, { align: "center" });
-                
-                doc.setTextColor(120);
-                doc.setFontSize(7);
-                doc.setFont("helvetica", "normal");
-                doc.text("DANE No: 313836800263", pageWidth / 2, 28, { align: "center" });
-                doc.text("Resolución 0571/2020 – 1072/2021", pageWidth / 2, 32, { align: "center" });
-                doc.text("Secretaría De Educación De Bolívar", pageWidth / 2, 36, { align: "center" });
-
-                doc.setDrawColor(230);
-                doc.line(15, 42, pageWidth - 15, 42);
-                currentY = 48; // Empujar los datos del alumno hacia abajo
+                drawPDFHeader(doc, pageWidth);
+                currentY = 48;
             }
 
             doc.setFontSize(9);
@@ -781,7 +1004,7 @@ Zuñiga Rincon Camilo Andres | CLEI V</textarea>
             doc.setFont("helvetica", "bold");
             doc.text("CURSO / CICLO:", 15, currentY + 6);
             doc.setFont("helvetica", "normal");
-            doc.text(cycle.toUpperCase(), 47, currentY + 6);
+            doc.text(courseFilter.toUpperCase(), 47, currentY + 6);
 
             doc.setFontSize(12);
             doc.setFont("helvetica", "bold");
@@ -790,7 +1013,7 @@ Zuñiga Rincon Camilo Andres | CLEI V</textarea>
             const data = [];
             document.querySelectorAll('#grades-body tr').forEach(tr => {
                 let subj = mode === 'custom' ? tr.querySelector('.subject-input').value : tr.querySelector('.subject-name').innerText;
-                if(subj.trim() !== '') { // Evitar imprimir filas que dejaron totalmente en blanco
+                if(subj.trim() !== '') { 
                     data.push([
                         subj, "2",
                         tr.querySelector('.p1').value,
@@ -804,7 +1027,6 @@ Zuñiga Rincon Camilo Andres | CLEI V</textarea>
 
             doc.autoTable({
                 startY: currentY + 22,
-                // Encabezados Modificados con letras blancas sobre fondo oscuro
                 head: [['ASIGNATURAS', 'I.H.S', 'NOTA 1 (30%)', 'NOTA 2 (40%)', 'NOTA 3 (30%)', 'FINAL', 'DESEMPEÑO']],
                 body: data,
                 theme: 'grid',
@@ -848,14 +1070,8 @@ Zuñiga Rincon Camilo Andres | CLEI V</textarea>
             loadSavedLogos(); 
             initPWA();
             initGradesTable(true);
-            processStudents();
-            switchTab('notas'); 
-        };
-    </script>
-</body>
-</html>
-            processStudents();
-            switchTab('notas'); // Abre directo en notas por comodidad
+            processStudents(); // Carga la lista inicial por defecto
+            switchTab('alumnos'); 
         };
     </script>
 </body>
