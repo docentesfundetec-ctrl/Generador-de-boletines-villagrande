@@ -976,9 +976,20 @@ Zuñiga Rincon Camilo Andres | CLEI V-2</textarea>
 
         // === NAVEGACIÓN Y EXPORTACIÓN DE BOLETÍN PDF ===
         function switchTab(tab) {
-            document.querySelectorAll('.view-panel').forEach(v => v.classList.add('hidden'));
-            document.getElementById(`view-${tab}`).classList.remove('hidden');
+            // Ocultar todas las vistas usando CSS purp (.view-panel { display: none; })
+            document.querySelectorAll('.view-panel').forEach(v => {
+                v.classList.remove('active');
+                v.style.display = 'none';
+            });
             
+            // Mostrar la vista activa
+            const activeView = document.getElementById(`view-${tab}`);
+            if (activeView) {
+                activeView.classList.add('active');
+                activeView.style.display = 'block';
+            }
+            
+            // Actualizar botones del menú
             const btnPrefixes = ['alumnos', 'logos', 'asistencia', 'actividades', 'notas'];
             btnPrefixes.forEach(b => {
                 const btn = document.getElementById(`btn-${b}`);
@@ -988,10 +999,6 @@ Zuñiga Rincon Camilo Andres | CLEI V-2</textarea>
             const actBtn = document.getElementById(`btn-${tab}`);
             if(actBtn) actBtn.classList.add('bg-gray-800');
             
-            // Forzar actualización de vista (necesario por el cambio de CSS a style nativo de display)
-            document.querySelectorAll('.view-panel').forEach(v => v.classList.remove('active'));
-            document.getElementById(`view-${tab}`).classList.add('active');
-
             const titles = { 
                 'alumnos': 'Base de Datos de Alumnos', 
                 'logos': 'Identidad Institucional', 
@@ -1094,12 +1101,7 @@ Zuñiga Rincon Camilo Andres | CLEI V-2</textarea>
 
         // === INICIALIZACIÓN ===
         window.onload = function() {
-            loadSavedLogos(); 
-            initPWA();
-            initGradesTable(true);
-            processStudents(); // Carga la lista inicial por defecto
-            
-            // Asegurar que la primera vista se muestre correctamente al cargar sin estilos CDN
+            // Asegurar que la primera vista se muestre correctamente al cargar
             document.querySelectorAll('.view-panel').forEach(v => {
                 v.style.display = 'none';
                 v.classList.remove('active');
@@ -1109,6 +1111,11 @@ Zuñiga Rincon Camilo Andres | CLEI V-2</textarea>
                 firstTab.style.display = 'block';
                 firstTab.classList.add('active');
             }
+            
+            loadSavedLogos(); 
+            initPWA();
+            initGradesTable(true);
+            processStudents(); 
         };
     </script>
 </body>
